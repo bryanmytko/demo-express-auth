@@ -22,7 +22,6 @@ var login = function(req, res, next){
       function(err, cmp){
         if(cmp){
           req.session.user = {
-            'id': user.id,
             'email': user.email
           };
           next();
@@ -51,7 +50,10 @@ var create_user = function(req, res, next){
     ).catch(function(){
       res.error = 'Error. User could not be created.';
       next();
-    }).then(function(){
+    }).then(function(user){
+      req.session.user = {
+        'email': email
+      };
       next();
     });
   });
